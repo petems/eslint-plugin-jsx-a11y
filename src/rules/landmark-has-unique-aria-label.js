@@ -51,7 +51,7 @@ const ariaLabelHasValue = (prop) => {
 };
 
 // Helper function to get accessible label from aria-label or aria-labelledby
-const getAccessibleLabel = (node, context) => {
+const getAccessibleLabel = (node) => {
   // Check for aria-label first
   const ariaLabelProp = getProp(node.attributes, 'aria-label');
   if (ariaLabelProp && ariaLabelHasValue(ariaLabelProp)) {
@@ -91,9 +91,9 @@ export default {
     return {
       'Program:exit': () => {
         // Process all collected landmarks
-        for (const [type, elements] of landmarkElements) {
+        landmarkElements.forEach((elements, type) => {
           if (elements.length <= 1) {
-            continue; // Only one element of this type, no need to check uniqueness
+            return; // Only one element of this type, no need to check uniqueness
           }
 
           const labeledElements = [];
@@ -127,7 +127,7 @@ export default {
           });
 
           // Report duplicate labels
-          for (const [labelKey, nodes] of labelCounts) {
+          labelCounts.forEach((nodes) => {
             if (nodes.length > 1) {
               nodes.forEach((node) => {
                 context.report({
@@ -136,8 +136,8 @@ export default {
                 });
               });
             }
-          }
-        }
+          });
+        });
       },
 
       JSXOpeningElement: (node) => {
@@ -151,7 +151,7 @@ export default {
         }
 
         // Get accessible label for this element
-        const accessibleLabel = getAccessibleLabel(node, context);
+        const accessibleLabel = getAccessibleLabel(node);
 
         // Store this landmark for later analysis
         if (!landmarkElements.has(nodeType)) {
