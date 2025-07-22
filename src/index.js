@@ -24,6 +24,7 @@ const allRules = {
   'interactive-supports-focus': require('./rules/interactive-supports-focus'),
   'label-has-associated-control': require('./rules/label-has-associated-control'),
   'label-has-for': require('./rules/label-has-for'),
+  'landmark-has-unique-aria-label': require('./rules/landmark-has-unique-aria-label'),
   lang: require('./rules/lang'),
   'media-has-caption': require('./rules/media-has-caption'),
   'mouse-events-have-key-events': require('./rules/mouse-events-have-key-events'),
